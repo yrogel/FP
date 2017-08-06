@@ -1,0 +1,126 @@
+Public DNS	52.39.6.72
+User name	Administrator
+Password	7E3YS)b749
+
+SQL Sever
+pass= Fishing2017
+
+credenciales amazon
+user : sortuzar@fishingpartners.cl
+pass : 1805061901fishing
+
+Url sitio
+http://52.39.6.72/FP/Login
+
+Google Maps JavaScript API
+AIzaSyAOD-mkWwXKxVxiZr4wPFyYDnEijtcwN4w
+
+S 43°1´0.6500",W 73°21´0.6800"; 
+S 43°1´5.2400",W 73°20´35.3800"; 
+S 43°1´15.3900",W 73°20´39.0500"; 
+S 43°1´10.8000",W 73°21´4.3500"
+634438 5235994- 635008 5235841 - 634919 5235529 - 634349 5235682
+-43.01684722222222, -73.35018888888888 ; -43.018122222222225, -73.3431611111111 ; -43.020941666666666, -73.34418055555555 ; -43.019666666666666, -73.35120833333333
+
+18 G 634438 5235994
+ILQUE
+LON						LAT
+-73.07764106327146 		-41.623823557868384
+-73.07146925888553		-41.62389127372958
+-73.07144832811727		-41.62459344114229
+-73.07761511720167		-41.62469676922591
+
+UTM a lat-Long
+function cmdUTM2Lat_click(){
+
+        latlon = new Array(2);
+        var x, y, zone, southhemi;
+
+        if (isNaN (parseFloat (document.frmConverter.txtX.value))) {
+            alert ("Por favor ingrese un valor valido para X.");
+            return false;
+        }
+
+        x = parseFloat (document.frmConverter.txtX.value);
+
+        if (isNaN (parseFloat (document.frmConverter.txtY.value))) {
+            alert ("Por favor ingrese un valor valido para Y.");
+            return false;
+        }
+
+        y = parseFloat (document.frmConverter.txtY.value);
+
+        if (isNaN (parseInt (document.frmConverter.txtZone.value))) {
+            alert ("Por favor ingrese una zona valida de UTM.");
+            return false;
+        }
+
+        zone = parseFloat (document.frmConverter.txtZone.value);
+
+        if ((zone < 1) || (60 < zone)) {
+            alert ("El valor de zona de UTM esta fuera de rango.  " +
+                   "Por favor ingrese un valor entre [1, 60].");
+            return false;
+        }
+
+        if (document.frmConverter.rbtnHemisphere[1].checked == true)
+            southhemi = true;
+        else
+            southhemi = false;
+
+        UTMXYToLatLon (x, y, zone, southhemi, latlon);
+
+        document.frmConverter.txtLon.value = RadToDeg (latlon[1]);
+        document.frmConverter.txtLat.value = RadToDeg (latlon[0]);
+
+        return true;
+
+	}
+
+--lat-long a UTM	
+function cmdLat2UTM_click(){
+        var xy = new Array(2);
+        if (isNaN (parseFloat (document.frmConverter.txtLon.value))) {
+            alert ("Por favor ingrese una longitud valida.");
+            return false;
+        }
+
+        lon = parseFloat (document.frmConverter.txtLon.value);
+
+        if ((lon < -180.0) || (180.0 <= lon)) {
+            alert ("La longitud ingresada esta fuera de rango.  " +
+                   "Por favor ingrese un valor comprendido entre [-180, 180).");
+            return false;
+        }
+
+        if (isNaN (parseFloat (document.frmConverter.txtLat.value))) {
+            alert ("Por favor ingrese una latitud valida.");
+            return false;
+        }
+
+        lat = parseFloat (document.frmConverter.txtLat.value);
+
+        if ((lat < -90.0) || (90.0 < lat)) {
+            alert ("La latitud ingresada esta fuera de rango.  " +
+                   "Por favor ingrese un valor comprendido entre [-90, 90].");
+            return false;
+        }
+
+        // Compute the UTM zone.
+        zone = Math.floor ((lon + 180.0) / 6) + 1
+
+        zone = LatLonToUTMXY (DegToRad (lat), DegToRad (lon), zone, xy);
+
+        /* Set the output controls.  */
+        document.frmConverter.txtX.value = xy[0];
+        document.frmConverter.txtY.value = xy[1];
+        document.frmConverter.txtZone.value = zone;
+        if (lat < 0)
+            // Set the S button.
+            document.frmConverter.rbtnHemisphere[1].checked = true;
+        else
+            // Set the N button.
+            document.frmConverter.rbtnHemisphere[0].checked = true;
+        return true;
+	}
+
